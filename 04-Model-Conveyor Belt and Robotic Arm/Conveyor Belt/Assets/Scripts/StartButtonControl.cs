@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class StartButton : MonoBehaviour
-{
-    public bool start = false;
+public class StartButtonControl : MonoBehaviour
+{ 
+    public bool start = false;  // Boolean to start the conveyor belt
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
