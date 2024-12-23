@@ -9,13 +9,19 @@ public class ConveyorBeltPhysics : MonoBehaviour {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         conv = GetComponent<Rigidbody>(); // Get the Rigidbody component attached to the Conveyor Belt
+
+        Quaternion rot = transform.rotation;
+        Debug.Log("Rotation: " + rot);
+        Debug.Log("Rotation: " + rot.eulerAngles);
+        Debug.Log("Rotation: " + rot.eulerAngles.y);
     }
 
     // FixedUpdate is called once per frame
     void FixedUpdate() {
         if(script.start){
             Vector3 pos = conv.position; // Get the position of the Conveyor Belt
-            conv.position = conv.position + Vector3.right * SpeedControl.ConveyorSpeed * Time.deltaTime; // Move the Conveyor Belt to the left
+            // To move the Rigidbody in the direction the GameObject is facing, you can use "transform.right" instead of "Vector3.right"
+            conv.position = conv.position + transform.right * SpeedControl.ConveyorSpeed * Time.deltaTime; 
             conv.MovePosition(pos); // Update the position of the Conveyor Belt
         }
         
