@@ -7,12 +7,12 @@ public class ConveyorSpeedControl : MonoBehaviour {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         BeltSpeed = ConveyorPulleysSpeed / 100 * -1;
-        ConveyorSpeed = ConveyorPulleysSpeed / 100 * 1.2f;
+        ConveyorSpeed = ConveyorPulleysSpeed / 100 * 0.6f;
     }
 
     // Update is called once per frame
     void Update() {
         BeltSpeed = ConveyorPulleysSpeed / 100 * -1;
-        ConveyorSpeed = ConveyorPulleysSpeed / 100 * 1.2f;
+        ConveyorSpeed = ConveyorPulleysSpeed / 100 * 0.6f;
     }
 }
