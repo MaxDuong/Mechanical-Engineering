@@ -21,26 +21,24 @@ public class RobotTest : MonoBehaviour
     public InputField J1string, J2string, J3string, J4string, J5string, J6string;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        J1.transform.localRotation = Quaternion.AngleAxis(J1Angle, new Vector3(1, 0, 0));
+    void Update() {
+        J1.transform.localRotation = Quaternion.AngleAxis(J1Angle, new Vector3(0, 1, 0));
         J2.transform.localRotation = Quaternion.AngleAxis(J2Angle, new Vector3(0, 0, 1));
         J3.transform.localRotation = Quaternion.AngleAxis(J3Angle, new Vector3(0, 0, 1));
         J4.transform.localRotation = Quaternion.AngleAxis(J4Angle, new Vector3(1, 0, 0));
         J5.transform.localRotation = Quaternion.AngleAxis(J5Angle, new Vector3(0, 0, 1));
         J6.transform.localRotation = Quaternion.AngleAxis(-J6Angle, new Vector3(1, 0, 0));
 
-        J1string.text = (-J1Angle).ToString();
-        J2string.text = (-J2Angle).ToString();
-        J3string.text = J3Angle.ToString();
-        J4string.text = J4Angle.ToString();
-        J5string.text = J5Angle.ToString();
-        J6string.text = (-J6Angle).ToString();
+    //     J1string.text = (-J1Angle).ToString();
+    //     J2string.text = (-J2Angle).ToString();
+    //     J3string.text = J3Angle.ToString();
+    //     J4string.text = J4Angle.ToString();
+    //     J5string.text = J5Angle.ToString();
+    //     J6string.text = (-J6Angle).ToString();
     }
 }
