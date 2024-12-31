@@ -86,3 +86,6 @@ desktop.ini
 *.out
 *.err
 logs/
+
+# Executables
+*.exe
