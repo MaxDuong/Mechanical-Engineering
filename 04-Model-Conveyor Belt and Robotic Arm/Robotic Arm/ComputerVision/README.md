@@ -13,51 +13,86 @@ This guide explains how to set up a Python environment with TensorFlow GPU suppo
 ### 1. WSL Setup
 
 Install Ubuntu 20.04 on WSL:
+
 ```bash
 wsl --install -d Ubuntu-20.04
 wsl --set-version Ubuntu-20.04 2
+```
+
 Verify WSL version:
+
+```bash
 wsl --version
+```
 
 ### 2. NVIDIA Driver Verification
 
 After installing NVIDIA drivers in Windows, verify the installation in WSL:
+
+```bash
 nvidia-smi
+```
 
 ### 3. Conda Installation
 
 Download and install Miniconda:
+
+```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 source ~/.bashrc
+```
 
 ### 4. Environment Setup
+
 Create and activate a new Conda environment:
+
+```bash
 conda create -n robotic-arm python=3.10
 conda activate robotic-arm
+```
 
 ### 5. CUDA and cuDNN Installation
+
 Install CUDA toolkit and cuDNN:
+
+```bash
 conda install -c conda-forge cudatoolkit=11.8.0
 conda install -c conda-forge cudnn=8.9.2.26
+```
 
 ### 6. Environment Variables
+
 Set up required environment variables:
+
+```bash
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' >> ~/.bashrc
 source ~/.bashrc
+```
 
 ### 7. TensorFlow Installation
-# Install TensorFlow
-pip install tensorflow==2.12
 
-# Install Robotics Toolbox and dependencies
+Install TensorFlow:
+
+```bash
+pip install tensorflow==2.12
+```
+
+### 8. Additional Packages
+
+Install Robotics Toolbox and dependencies:
+
+```bash
 pip install spatialmath-python==1.0.0
 pip install spatialgeometry==1.0.3
 pip install roboticstoolbox-python==1.0.3
 pip install qpsolvers[open_source_solvers]
+```
 
-# Install Scientific Computing Packages
+Install Scientific Computing Packages:
+
+```bash
 conda install pandas
 conda install scikit-learn
 conda install opencv-python
