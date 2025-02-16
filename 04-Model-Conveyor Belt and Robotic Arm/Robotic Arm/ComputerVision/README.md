@@ -1,66 +1,64 @@
-# Stock Data Pipeline
+# TensorFlow GPU Setup on WSL
 
-A Python-based data pipeline that fetches stock data from Twelve Data API, stores it in Google Sheets, and performs analysis using BigQuery.
-
-## Features
-
-- Fetch real-time and historical stock data from Twelve Data API
-- Store data in Google Sheets for easy visualization and sharing
-- Perform advanced analysis using BigQuery
-- Comprehensive error handling and logging
-- Modular and maintainable code structure
+This guide explains how to set up a Python environment with TensorFlow GPU support on Windows Subsystem for Linux (WSL).
 
 ## Prerequisites
 
-- Python 3.8 or higher
-- Google Cloud Platform account with BigQuery enabled
-- Google Service Account with appropriate permissions
-- Twelve Data API key
+- Windows 10/11 with WSL support
+- NVIDIA GPU
+- NVIDIA drivers installed on Windows
 
-## Installation
+## Installation Steps
 
-1. Clone the repository:
+### 1. WSL Setup
+
+Install Ubuntu 20.04 on WSL:
 ```bash
-git clone https://github.com/yourusername/stock-data-pipeline.git
-cd stock-data-pipeline
-```
+wsl --install -d Ubuntu-20.04
+wsl --set-version Ubuntu-20.04 2
+Verify WSL version:
+wsl --version
 
-2. Create and activate a virtual environment:
-```bash
-python -m venv robotic-arm       # python -m venv robotic-arm-window
-source robotic-arm/bin/activate  # On Windows use: robotic-arm-window\Scripts\activate
+### 2. NVIDIA Driver Verification
 
-or 
-pip install poetry
-poetry init # Starting a new project
-poetry add requests # Add dependencies to your project (e.g., requests)
-poetry install --no-root # install dependencies and create the virtual environment
-poetry shell # Activate the virtual environment
-exit # Exit the virtual environment
+After installing NVIDIA drivers in Windows, verify the installation in WSL:
+nvidia-smi
 
-# Check the virtual environment information
-poetry env info 
-# Reinstall dependencies
-poetry lock --no-update
-poetry install --no-root
+### 3. Conda Installation
 
-```
+Download and install Miniconda:
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+source ~/.bashrc
 
-3. Connect to local Unity Server on the port of 55001
-    - Open Command Prompt (Windows) or Terminal (Linux/Mac)
-    - Run the command to check if the Unity Server is running: 
-        Windows: netstat -an | find "55001"
-        Linux/Mac: netstat -an | grep 55001
-    - Windows and WSL operate in different network namespaces, thus the server running on Windows (port 55001) is not visible to WSL. To connect to the Unity Server from WSL, you need to use default gateway IP in WSL by the command.
-        WSL: ip route | grep default (e.g., default via 172.22.96.1 dev eth0 proto kernel)
-        Command Prompt: ipconfig (Ethernet adapter vEthernet (WSL (Hyper-V firewall)):  -> IPv4 Address)
-    - Then, you can use the default gateway IP to connect to the Unity Server from WSL by running the following command:
-        WSL: curl <default gateway>:<port> (e.g., curl http://172.22.96.1:55001)
-    - If the connection is unsuccessful, you may need to temporarily turn off the firewall settings by the command
-        Windows (Command Prompt as Admin): netsh advfirewall set allprofiles state off
+### 4. Environment Setup
+Create and activate a new Conda environment:
+conda create -n robotic-arm python=3.10
+conda activate robotic-arm
 
-    In case of the fact that the solution above does not work, you can use the following command to connect to the Unity Server from WSL. This proxies requests to 10.255.255.254:55001 to 127.0.0.1:55001.
-        Window (Command Prompt (Admin)) 
-            netsh interface portproxy add v4tov4 listenaddress=10.255.255.254 listenport=55001 connectaddress=127.0.0.1 connectport=55001
-            netsh interface portproxy add v4tov4 listenaddress=172.22.96.1 listenport=55001 connectaddress=127.0.0.1 connectport=55001
+### 5. CUDA and cuDNN Installation
+Install CUDA toolkit and cuDNN:
+conda install -c conda-forge cudatoolkit=11.8.0
+conda install -c conda-forge cudnn=8.9.2.26
 
+### 6. Environment Variables
+Set up required environment variables:
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' >> ~/.bashrc
+source ~/.bashrc
+
+### 7. TensorFlow Installation
+# Install TensorFlow
+pip install tensorflow==2.12
+
+# Install Robotics Toolbox and dependencies
+pip install spatialmath-python==1.0.0
+pip install spatialgeometry==1.0.3
+pip install roboticstoolbox-python==1.0.3
+pip install qpsolvers[open_source_solvers]
+
+# Install Scientific Computing Packages
+conda install pandas
+conda install scikit-learn
+conda install opencv-python
+conda install matplotlib
